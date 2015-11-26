@@ -112,3 +112,6 @@ UpgradeLog*.XML
 /workwithqueries/build/
 /workwithqueries/dist/
 /workwithqueries/nbproject/private/
+.classpath
+.project
+workwithqueries/.settings
