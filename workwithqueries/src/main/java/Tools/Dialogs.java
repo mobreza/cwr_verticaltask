@@ -5,63 +5,43 @@
  */
 package Tools;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  *
  * @author HSOTELO
  */
 public class Dialogs {
-    public static String getFile()
-    {
-        String a=null;
-        try
-        {
-            JFileChooser fc=new JFileChooser();
-            fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-                a=fc.getSelectedFile().getAbsolutePath();
-        }
-        catch(Exception ex)
-        {
-            System.out.println(ex);
-        }
-        return a;
-    }
-    
-    public static String getDirectory()
-    {
-        String a=null;
-        try
-        {
-            JFileChooser fc=new JFileChooser();
-            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
-                a=fc.getSelectedFile().getAbsolutePath();
-        }
-        catch(Exception ex)
-        {
-            System.out.println(ex);
-        }
-        return a;
-    }
-    
-    public static void message(String msg){
-        JOptionPane.showMessageDialog(null, msg);
-    }
-    
-    public static String read(String msg){
-        return JOptionPane.showInputDialog(msg);
-    }
-    
-    public static int readInt(String msg){
-        try{
-            return Integer.parseInt(JOptionPane.showInputDialog(msg));
-        }
-        catch(NumberFormatException ex){
-            System.out.println(ex);
-            return readInt(msg);
-        }
-    }
+	public static File getFile(String msg) throws IOException {
+		String a = read(msg);
+		return new File(a);
+	}
+
+	public static File getDirectory(String msg) throws IOException {
+		String a = read(msg);
+		return new File(a);
+	}
+
+	public static void message(String msg) {
+		System.out.println("\n" + msg);
+	}
+
+	public static String read(String msg) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		System.out.println("\n" + msg);
+		return br.readLine();
+	}
+
+	public static int readInt(String msg) throws IOException {
+		try {
+			return Integer.parseInt(read(msg));
+		} catch (NumberFormatException ex) {
+			System.out.println(ex);
+			return readInt(msg);
+		}
+	}
 }

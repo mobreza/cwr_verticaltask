@@ -36,13 +36,10 @@ public class OccurrencesByOption {
                 option=Dialogs.readInt("Select option to execute:\n1.Genus\n2.Country\n3.Taxon");            
 
 			MySQL mysql=new MySQL(dbHost, dbName, dbUsername, dbPwd);
-            final String split=File.separator;
-            Dialogs.message("Select file source");
-            String file = Dialogs.getFile();
-            Dialogs.message("Select destination folder");
+            
+            File file = Dialogs.getFile("Select file source");
+            File destinationDir=Dialogs.getDirectory("Select destination folder");
 
-            String destination=Dialogs.getDirectory();
-            File destinationDir=new File(destination);
             if (! destinationDir.isDirectory()) {
             	System.out.println("Not a valid directory: " + destinationDir);
             	System.exit(-1);
@@ -55,7 +52,7 @@ public class OccurrencesByOption {
                            (option==1?"f_x1_genus = '":
                                 (option==2?"final_country = '":
                                     "taxon_final = '"));
-            String destinationType=(option==1?"genus":(option==2?"country":"taxon")) + split;
+            File destinationTypeDir=new File(destinationDir, (option==1?"genus":(option==2?"country":"taxon")));
             BufferedReader reader = new BufferedReader(new FileReader(file));
             PrintWriter writer;
             String line, newLine;
@@ -63,7 +60,7 @@ public class OccurrencesByOption {
             {
                 line=line.replaceAll("\"", "");
                 System.out.println("File: " + line);
-                final File destinationFile=new File(destinationDir, destinationType + line + ".csv");
+                final File destinationFile=new File(destinationTypeDir, line + ".csv");
                 System.out.println("Writing to: " + destinationFile.getAbsolutePath());
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(destinationFile, true)));
                 writer.println(header);
